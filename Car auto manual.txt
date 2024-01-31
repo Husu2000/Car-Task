@@ -1,0 +1,103 @@
+#include <iostream>
+#include <cassert>
+#include <vector>
+using namespace std;
+class Car {
+private:
+    string brand;
+    string model;
+    int year;
+
+public:
+    Car(const string& brand, const string& model, int year)
+        : brand(brand), model(model), year(year) {}
+
+    // Getter methods
+    string getBrand() const {
+        return brand;
+    }
+
+    string getModel() const {
+        return model;
+    }
+
+    int getYear() const {
+        return year;
+    }
+
+     
+    void setBrand(const string& newBrand) {
+        int len = size(newBrand);
+        if (len >= 3 && len < 20) brand=newBrand;
+        assert(!"Brand sef verilib");
+    }
+
+    void setModel(const string& newModel) {
+        int len = size(newModel);
+        if (len >= 3 && len < 20) model = newModel;
+        assert(!"Model sef verilib");
+    }
+
+    void setYear(int newYear) {
+        if (newYear > 1000 && 3000 > newYear) year = newYear;
+        assert(!"Il sef verilib");
+    }
+
+    // Display information method
+    virtual void displayInfo() const {
+        cout << "Brand: " << brand << ", Model: " << model << ", Year: " << year << endl;
+    }
+};
+
+class Manual : public Car {
+public:
+    Manual(const string& brand, const string& model, int year)
+        : Car(brand, model, year) {}
+
+    void displayInfo() const override {
+        cout << "Manual Transmission - ";
+        displayInfo();
+    }
+};
+
+class Automatic : public Car {
+public:
+    Automatic(const string& brand, const string& model, int year)
+        : Car(brand, model, year) {}
+
+    void displayInfo() const override {
+        cout << "Automatic Transmission - ";
+        displayInfo();
+    }
+};
+
+class CarManager {
+private:
+    vector<Car*> cars;
+
+public:
+    void addCar(Car* car) {
+        cars.push_back(car);
+    }
+
+    void displayAllCarsInfo() const {
+        cout << "All Cars Information:" << endl;
+        for (const auto& car : cars) {
+            car->displayInfo();
+        }
+    }
+};
+
+int main() {
+    CarManager carManager;
+
+    Manual manualCar("Bmw", "X5", 2022);
+    Automatic automaticCar("Toyota", "Camry", 2021);
+
+    carManager.addCar(&manualCar);
+    carManager.addCar(&automaticCar);
+
+    carManager.displayAllCarsInfo();
+
+    return 0;
+}
